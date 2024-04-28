@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phising Scanner Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+</head>
+
+<body onload="fetchDataFromBackend()">
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Phising Scanner Dashboard</h1>
+            <div class="box">
+                <h2 class="subtitle">Detection</h2>
+                <div class="level">
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">Clean</p>
+                            <p class="title" id="cleanCount">Loading...</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">Suspicious</p>
+                            <p class="title" id="suspiciousCount">Loading...</p>
+                        </div>
+                    </div>
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <p class="heading">Malicious</p>
+                            <p class="title" id="maliciousCount">Loading...</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-wrapper">
+                    <progress class="progress is-success" id="cleanProgress" value="0" max="50"></progress>
+                    <progress class="progress is-warning" id="suspiciousProgress" value="0" max="50"></progress>
+                    <progress class="progress is-danger" id="maliciousProgress" value="0" max="50"></progress>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <h2 class="subtitle">Clean Sites</h2>
+                        <ul id="cleanList">
+                            <!-- Clean sites will be populated dynamically -->
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h2 class="subtitle">Suspicious Sites</h2>
+                        <ul id="suspiciousList">
+                            <!-- Suspicious sites will be populated dynamically -->
+                        </ul>
+                    </div>
+                    <div class="column">
+                        <h2 class="subtitle">Malicious Sites</h2>
+                        <ul id="maliciousList">
+                            <!-- Malicious sites will be populated dynamically -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function fetchDataFromBackend() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('cleanCount').innerText = data.cleanCount;
+                    document.getElementById('suspiciousCount').innerText = data.suspiciousCount;
+                    document.getElementById('maliciousCount').innerText = data.maliciousCount;
+
+                    document.getElementById('cleanProgress').value = data.cleanCount;
+                    document.getElementById('suspiciousProgress').value = data.suspiciousCount;
+                    document.getElementById('maliciousProgress').value = data.maliciousCount;
+
+                    populateList('cleanList', data.cleanList);
+                    populateList('suspiciousList', data.suspiciousList);
+                    populateList('maliciousList', data.maliciousList);
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        function populateList(listId, items) {
+            const list = document.getElementById(listId);
+            list.innerHTML = ''; // Clear previous items
+
+            items.forEach(item => {
+                const listItem = document.createElement('li');
+                listItem.textContent = item;
+                list.appendChild(listItem);
+            });
+        }
+    </script>
+</body>
+
+</html>

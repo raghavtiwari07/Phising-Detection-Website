@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing Detection Scanner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
+    <style>
+        body {
+            background-image: url('https://img.freepik.com/free-vector/realistic-neon-lights-background_23-2148907367.jpg?w=996&t=st=1714150492~exp=1714151092~hmac=85a39e509d50e6a7ea4a9e67230c1da3e696cd1c3ea14c43eadb6b95ead86178'); /* Background image URL */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh; /* Make the body fill the viewport height */
+            margin: 0; /* Remove default margin */
+            overflow: hidden;
+        }
+        
+
+        .processing-bar-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.1); /* Transparent background color */
+            border-radius: 1px;
+            padding: 1px; /* Adjusted padding */
+            height: 0.00001px; /* Adjusted height */
+        }
+
+        .processing-bar {
+            position: relative;
+            width: 30px; /* Adjusted width */
+            height: 30px; /* Adjusted height */
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.3); /* Transparent border */
+            border-top: 4px solid rgba(0, 209, 178, 0.8); /* Transparent border with alpha */
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+            <h1 class="title has-text-centered">Phishing Detection Scanner</h1>
+            <form id="scanForm">
+                <div class="field has-text-centered">
+                    <label class="label">URL</label>
+                    <div class="control">
+                        <input class="input" type="text" id="urlInput" name="url" placeholder="Enter a URL" required>
+                    </div>
+                </div>
+                <div class="field is-grouped is-grouped-centered">
+                    <div class="control">
+                        <button class="button is-primary" type="submit">Scan</button>
+                    </div>
+                    <!-- Additional button -->
+                    <div class="control">
+                        <button class="button is-info" onclick="redirectToDashboard()">Go to Dashboard</button>
+                    </div>
+                </div>
+            </form>
+            <div id="results" class="box" style="display: none;">
+                <p id="scanningText" class="has-text-centered">Scanning URL...</p>
+                <div class="processing-bar-container">
+                    <div class="processing-bar"></div>
+                </div>
+                <div id="scanResult" style="display: none;"></div>
+            </div>
+        </div>
+    </section>
+    <script>
+        document.getElementById("scanForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent form submission
+            scanURL();
+        });
+
+        function scanURL() {
+            const urlInput = document.getElementById("urlInput");
+            const resultsDiv = document.getElementById("results");
+            const scanningText = document.getElementById("scanningText");
+            const processingBar = document.querySelector(".processing-bar");
+            const scanResult = document.getElementById("scanResult");
+            const url = urlInput.value;
+
+            // Show scanning UI
+            resultsDiv.style.display = "block";
+            scanningText.textContent = "Scanning URL...";
+            processingBar.style.display = "block"; // Show processing bar
+
+            // Simulate scanning process
+            setTimeout(() => {
+                // Hide scanning animation
+                processingBar.style.display = "none";
+
+                // Display message
+                scanningText.textContent = "Go to Dashboard for analysis.";
+                scanResult.style.display = "block";
+            }, 2000);
+        }
+
+        // Function to redirect to the dashboard
+        function redirectToDashboard() {
+            window.location.href = '/dashboard';
+        }
+    </script>
+</body>
+
+</html>
