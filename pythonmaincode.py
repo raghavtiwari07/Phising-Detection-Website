@@ -3,19 +3,19 @@ import requests
 
 app = Flask(__name__)
 
-# Initialize empty lists to store URLs
-clean_list = []
-suspicious_list = []
-malicious_list = []
 
-# Initialize counters for each category
-clean_count = 0
-suspicious_count = 0
-malicious_count = 0
 
 def check_url_safety(url):
     global clean_count, suspicious_count, malicious_count, clean_list, suspicious_list, malicious_list
+    # Initialize empty lists to store URLs
+    clean_list = []
+    suspicious_list = []
+    malicious_list = []
 
+    # Initialize counters for each category
+    clean_count = 0
+    suspicious_count = 0
+    malicious_count = 0
     # VirusTotal API
     params_vt = {'apikey': '6e125786da905f2c99d4cf8ca3c3331edbfe3bf2f1726c3caf7006838b5a72d8', 'resource': url}
     response_vt = requests.get('https://www.virustotal.com/vtapi/v2/url/report', params=params_vt)
