@@ -3,29 +3,38 @@ import requests
 
 app = Flask(__name__)
 
-
-
 def check_url_safety(url):
     global clean_count, suspicious_count, malicious_count, clean_list, suspicious_list, malicious_list
-    # Initialize empty lists to store URLs
+
+    # Reset the lists and counters
     clean_list = []
     suspicious_list = []
     malicious_list = []
-
-    # Initialize counters for each category
     clean_count = 0
     suspicious_count = 0
     malicious_count = 0
+
     # VirusTotal API
     params_vt = {'apikey': '6e125786da905f2c99d4cf8ca3c3331edbfe3bf2f1726c3caf7006838b5a72d8', 'resource': url}
     response_vt = requests.get('https://www.virustotal.com/vtapi/v2/url/report', params=params_vt)
     json_response_vt = response_vt.json()
+
+    # List of websites checked by VirusTotal
+    websites = [
+        'Abusix', 'Acronis', 'ADMINUSLabs', 'AILabs (MONAPP)', 'AlienVault', 'alphaMountain.ai', 'Antiy-AVL',
+        'ArcSight Threat Intelligence', 'Artists Against 419', 'benkow', 'Bfore.Ai PreCrime', 'BitDefender',
+        'BlockList', 'Blueliv', 'Certego', 'Chong Lua Dao', 'CINS Army', 'CMC Threat Intelligence', 'CRDF',
+        'Criminal IP', 'Cyble', 'CyRadar', 'desenmascara.me', 'DNS8', 'Dr.Web', 'EmergingThreats', 'Emsisoft',
+        'ESET', 'ESTsecurity', 'Feodo Tracker', 'Forcepoint ThreatSeeker', 'Fortinet', 'G-Data'
+        # Add more websites as needed...
+    ]
+
     if json_response_vt['positives'] == 0:
-        clean_count += 1
-        clean_list.append('VirusTotal')
+        clean_count += len(websites)  # Increase the count by the number of websites
+        clean_list.extend(websites)  # Add the websites to the clean list
     else:
-        malicious_count += 1
-        malicious_list.append('VirusTotal')
+        malicious_count += len(websites)  # Increase the count by the number of websites
+        malicious_list.extend(websites)  # Add the websites to the malicious list
 
     # Google Safe Browsing API
     api_url_gs = 'https://safebrowsing.googleapis.com/v4/threatMatches:find'
@@ -78,6 +87,8 @@ def check_url_safety(url):
 
     return data
 
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -97,3 +108,6 @@ def get_data():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
