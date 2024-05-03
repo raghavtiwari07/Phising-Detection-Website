@@ -39,6 +39,12 @@
             animation: spin 1s linear infinite;
             margin: 0 auto;
         }
+        .subtitle,
+        .heading,
+        .title {
+            font-size: 1.8rem; /* Increase font size */
+            color: #fff; 
+        }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
@@ -50,7 +56,7 @@
 <body>
     <section class="section">
         <div class="container">
-            <h1 class="title has-text-centered">Phishing Detection Scanner</h1>
+            <h1 class="title has-text-centered">PhishHunter Scanner</h1>
             <form id="scanForm">
                 <div class="field has-text-centered">
                     <label class="label">URL</label>
@@ -109,8 +115,10 @@
 
         // Function to redirect to the dashboard
         function redirectToDashboard() {
-            window.location.href = '/dashboard';
+            const url = document.getElementById("urlInput").value;
+            window.location.href = '/dashboard?url=' + encodeURIComponent(url);
         }
+        
     </script>
 </body>
 
