@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.3/css/bulma.min.css">
     <style>
         body {
-            background-image: url('https://img.freepik.com/free-vector/realistic-neon-lights-background_23-2148907367.jpg?w=996&t=st=1714150492~exp=1714151092~hmac=85a39e509d50e6a7ea4a9e67230c1da3e696cd1c3ea14c43eadb6b95ead86178'); /* Background image URL */
+            background-image: url('https://images.pexels.com/photos/2653362/pexels-photo-2653362.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'); /* Background image URL */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -23,7 +23,7 @@
             justify-content: center;
             align-items: center;
             margin-top: 20px;
-            background-color: rgba(255, 255, 255, 0.1); /* Transparent background color */
+            background-color: rgba(255, 2, 242, 0.1); /* Transparent background color */
             border-radius: 1px;
             padding: 1px; /* Adjusted padding */
             height: 0.00001px; /* Adjusted height */
@@ -43,20 +43,65 @@
         .heading,
         .title {
             font-size: 1.8rem; /* Increase font size */
-            color: #fff; 
+            color: #00ffff; 
         }
 
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes fadeInOut {
+            0% {
+                opacity: 0;
+            }
+            45% {
+                opacity: 1;
+            }
+            55% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        
+        .animated-text {
+            animation: fadeInOut 2s linear infinite;
+            color: rgb(0, 0, 0); /* Neon color */
+            text-shadow: 0 0 5px rgb(253, 253, 255), /* Glowing effect */
+                         0 0 10px rgb(240, 143, 143),
+                         0 0 15px rgb(246, 255, 199),
+                         0 0 20px rgb(183, 255, 218);
+        }
+        
+
+
+        .loading-button {
+            animation: pulse 2s infinite;
+        }
+        
     </style>
 </head>
 
 <body>
     <section class="section">
         <div class="container">
-            <h1 class="title has-text-centered">PhishHunter Scanner</h1>
+            <h1 class="title has-text-centered">WebGuardian @PhishBuster</h1>
             <form id="scanForm">
                 <div class="field has-text-centered">
                     <label class="label">URL</label>
@@ -66,16 +111,12 @@
                 </div>
                 <div class="field is-grouped is-grouped-centered">
                     <div class="control">
-                        <button class="button is-primary" type="submit">Scan</button>
-                    </div>
-                    <!-- Additional button -->
-                    <div class="control">
-                        <button class="button is-info" onclick="redirectToDashboard()">Go to Dashboard</button>
+                        <button class="button is-primary loading-button" type="submit">Scan and Go to Dashboard</button>
                     </div>
                 </div>
             </form>
             <div id="results" class="box" style="display: none;">
-                <p id="scanningText" class="has-text-centered">Scanning URL...</p>
+                <p id="scanningText" class="has-text-centered animated-text">Scanning URL...</p>
                 <div class="processing-bar-container">
                     <div class="processing-bar"></div>
                 </div>
@@ -96,28 +137,27 @@
             const processingBar = document.querySelector(".processing-bar");
             const scanResult = document.getElementById("scanResult");
             const url = urlInput.value;
-
+        
             // Show scanning UI
             resultsDiv.style.display = "block";
             scanningText.textContent = "Scanning URL...";
             processingBar.style.display = "block"; // Show processing bar
-
+        
             // Simulate scanning process
             setTimeout(() => {
                 // Hide scanning animation
                 processingBar.style.display = "none";
-
+        
                 // Display message
-                scanningText.textContent = "Go to Dashboard for analysis.";
+                scanningText.textContent = "Redirecting to Dashboard for analysis...";
                 scanResult.style.display = "block";
+        
+                // Redirect to the dashboard
+                window.location.href = '/dashboard?url=' + encodeURIComponent(url);
             }, 2000);
         }
-
-        // Function to redirect to the dashboard
-        function redirectToDashboard() {
-            const url = document.getElementById("urlInput").value;
-            window.location.href = '/dashboard?url=' + encodeURIComponent(url);
-        }
+        
+        
         
     </script>
 </body>
