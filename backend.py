@@ -6,7 +6,6 @@ app = Flask(__name__)
 def check_url_safety(url):
     global clean_count, suspicious_count, malicious_count, clean_list, suspicious_list, malicious_list
 
-    # Reset the lists and counters
     clean_list = []
     suspicious_list = []
     malicious_list = []
@@ -14,8 +13,7 @@ def check_url_safety(url):
     suspicious_count = 0
     malicious_count = 0
 
-    # VirusTotal API
-    params_vt = {'apikey': '6e125786da905f2c99d4cf8ca3c3331edbfe3bf2f1726c3caf7006838b5a72d8', 'resource': url}
+    params_vt = {'apikey': '//////////////', 'resource': url}
     response_vt = requests.get('https://www.virustotal.com/vtapi/v2/url/report', params=params_vt)
     json_response_vt = response_vt.json()
 
@@ -38,7 +36,7 @@ def check_url_safety(url):
 
     # Google Safe Browsing API
     api_url_gs = 'https://safebrowsing.googleapis.com/v4/threatMatches:find'
-    params_gs = {'key': 'AIzaSyBQdQt7rf0ZGWcU-6MNwgyNSpDFn8Qhxfs'}
+    params_gs = {'key': '\\\\\\\\\\\\\\\\\\\\'}
     body_gs = {
         'client': {'clientId': 'UPES', 'clientVersion': '1.5.2'},
         'threatInfo': {
@@ -58,7 +56,7 @@ def check_url_safety(url):
         clean_list.append('GoogleSafeBrowsing')
 
     # MetaDefender API
-    api_key_md = "e0bf7e3d573753730e829e2c5144b846"
+    api_key_md = "\\\\\\\\\\\\\\\\\\\\\\\\\"
     headers_md = {"apikey": api_key_md}
     data_md = {"url": [url]}
     response_md = requests.post("https://api.metadefender.com/v4/url", headers=headers_md, json=data_md)
